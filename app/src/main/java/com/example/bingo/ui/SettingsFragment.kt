@@ -1,5 +1,6 @@
 package com.example.bingo.ui
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,6 +24,15 @@ class SettingsFragment : Fragment() {
             startActivity(Intent(activity, HomeActivity::class.java))
             requireActivity().finish()
         }
+
+        ObjectAnimator.ofFloat(binding.btnBack, "alpha", 0.0F, 1.0F).setDuration(700L)
+            .start()
+        ObjectAnimator.ofFloat(binding.title, "alpha", 0.0F, 1.0F).setDuration(700L)
+            .start()
+       ObjectAnimator.ofFloat(binding.btnLogOut, "alpha", 0.0F, 1.0F).setDuration(700L)
+            .start()
+       ObjectAnimator.ofFloat(binding.btnProfile, "alpha", 0.0F, 1.0F).setDuration(700L)
+            .start()
 
         return binding.root
 
