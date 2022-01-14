@@ -17,7 +17,7 @@ import models.User
 
 class SignUpActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySignupBinding
+   /* private lateinit var binding: ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,5 +94,5 @@ class SignUpActivity : AppCompatActivity() {
                     }
             }
         }
-    }
+    }*/
 }

@@ -18,7 +18,7 @@
             android:id="@+id/registerSign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="regiser"
+            android:text="register"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"

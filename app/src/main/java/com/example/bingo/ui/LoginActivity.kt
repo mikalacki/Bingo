@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 
 class LogInActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
+   /* private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,5 +55,5 @@ class LogInActivity : AppCompatActivity() {
                 }
             }
         }
-    }
+    }*/
 }
