@@ -6,22 +6,33 @@ import android.os.PersistableBundle
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
 import android.widget.Button
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.example.bingo.R
 import com.example.bingo.databinding.ActivityHomeBinding
+import com.google.firebase.auth.FirebaseAuth
 import startAnimation
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
+    private lateinit var firebaseAuth: FirebaseAuth
+
+    private lateinit var actionBar: ActionBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAuth = FirebaseAuth.getInstance()
+        //checkUser()
+
+        actionBar = supportActionBar!!
+        actionBar.title = "Home"
 
         binding.btnPlayGame.setOnClickListener {
             startActivity(Intent(this, GameActivity::class.java))
@@ -46,6 +57,17 @@ class HomeActivity : AppCompatActivity() {
                     .add(android.R.id.content, SettingsFragment()).commit()
             }
 
+        }
+    }
+
+    private fun checkUser() {
+        val firebaseUser = firebaseAuth.currentUser
+        if (firebaseUser != null){
+            var numb = 1
+        }
+        else{
+            startActivity(Intent(this, LogInActivity::class.java))
+            finish()
         }
     }
 }

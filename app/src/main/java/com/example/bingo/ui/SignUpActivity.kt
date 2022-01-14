@@ -3,12 +3,13 @@ package com.example.bingo.ui
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bingo.databinding.ActivitySignupBinding
 import com.google.android.gms.tasks.Task
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -17,82 +18,89 @@ import models.User
 
 class SignUpActivity : AppCompatActivity() {
 
-   /* private lateinit var binding: ActivitySignupBinding
+    private lateinit var binding: ActivitySignupBinding
+
+    private lateinit var actionBar: ActionBar
+
+
+    private lateinit var firebaseAuth: FirebaseAuth
+
+    var username = ""
+    var fullname = ""
+    var email = ""
+    var password = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        FirebaseApp.initializeApp(this);
+        actionBar = supportActionBar!!
+        actionBar.title = "Sign Up"
 
-        binding.apply {
-            loginText.setOnClickListener {
-                val intent = Intent(
-                    applicationContext,
-                    LogInActivity::class.java
-                )
-                startActivity(intent)
+        firebaseAuth = FirebaseAuth.getInstance()
+
+        binding.btnRegister.setOnClickListener {
+            validateData()
+        }
+    }
+
+    private fun putUserInDatabase(task: Task<AuthResult>) {
+        val user = User(username, fullname, email)
+        if (task.isSuccessful) {
+            FirebaseDatabase.getInstance().getReference("Users")
+                .child(username)
+                .setValue(user)
+        } else {
+            Toast.makeText(
+                this,
+                "Failed to register! Try again!",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun validateData() {
+
+        email = binding.tvEmail.text.toString().trim()
+        password = binding.passwordSignup.text.toString().trim()
+        fullname = binding.fullName.text.toString().trim()
+        username = binding.usernameSignup.text.toString().trim()
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+
+            binding.tvEmail.error = "Invalid email format"
+        } else if (TextUtils.isEmpty(password)) {
+            binding.passwordSignup.error = "Please enter password"
+        } else if (password.length < 6) {
+            binding.passwordSignup.error = "Password must be at least 6 characters long"
+        } else if (TextUtils.isEmpty(fullname)) {
+            binding.fullName.error = "Please enter full name"
+        } else if (TextUtils.isEmpty(username)) {
+            binding.usernameSignup.error = "Please enter username"
+        } else {
+            firebaseSignUp()
+        }
+    }
+
+    private fun firebaseSignUp() {
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+            .addOnSuccessListener {
+                val firebaseUser = firebaseAuth.currentUser
+                val email = firebaseUser!!.email
+                Toast.makeText(this, "Account created with email $email", Toast.LENGTH_SHORT).show()
+
+                startActivity(Intent(this, HomeActivity::class.java))
                 finish()
             }
-            btnRegister.setOnClickListener {
-                val username = usernameSignup.text.toString().trim { it <= ' ' }
-                val fullname = fullName.text.toString().trim { it <= ' ' }
-                val email = tvEmail.text.toString().trim { it <= ' ' }
-                val password = passwordSignup.text.toString()
-                val user = User(username, fullname, email)
-                if (TextUtils.isEmpty(username)) {
-                    usernameSignup.error = "Username is Required"
-                }
-                if (TextUtils.isEmpty(fullname)) {
-                    fullName.error = "Fullname is Required"
-                }
-                if (TextUtils.isEmpty(email)) {
-                    tvEmail.error = "Email is Required"
-                }
-                if (TextUtils.isEmpty(password)) {
-                    passwordSignup.error = "Password is Required"
-                }
-                if (password.length < 6) {
-                    passwordSignup.error = "Password is too short"
-                }
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task: Task<AuthResult?> ->
-                        if (task.isSuccessful) {
-                            FirebaseDatabase.getInstance().getReference("Users")
-                                .child(FirebaseAuth.getInstance().currentUser!!.uid)
-                                .setValue(user)
-                                .addOnCompleteListener { task1: Task<Void?> ->
-                                    if (task1.isSuccessful) {
-                                        Toast.makeText(
-                                            this@SignUpActivity,
-                                            "User has been registered successfully",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-
-                                        val intent =
-                                            Intent(applicationContext, LogInActivity::class.java)
-                                        startActivity(intent)
-                                        finish()
-                                    } else {
-                                        Toast.makeText(
-                                            this@SignUpActivity,
-                                            "Failed to register! Try again!",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-
-                                    }
-                                }
-                        } else {
-                            Toast.makeText(
-                                this@SignUpActivity,
-                                "Failed to register! Try again!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                        }
-                    }
+            .addOnFailureListener {
+                Toast.makeText(this, "Signup failed due to ${it.message}", Toast.LENGTH_SHORT).show()
+            }.addOnCompleteListener {
+                putUserInDatabase(it)
             }
-        }
-    }*/
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
 }

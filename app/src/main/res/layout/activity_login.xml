@@ -19,7 +19,7 @@
             android:padding="20dp"
             android:text="login"
             android:textAllCaps="true"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/black"
             android:textSize="60sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
             android:hint="email"
             android:inputType="textEmailAddress"
             android:padding="10dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/loginSign">
 
         </com.google.android.material.textfield.TextInputEditText>
@@ -50,7 +50,7 @@
             android:hint="password"
             android:inputType="textPassword"
             android:padding="10dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/emailLogin">
 
         </com.google.android.material.textfield.TextInputEditText>
@@ -85,6 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="signup"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_login">

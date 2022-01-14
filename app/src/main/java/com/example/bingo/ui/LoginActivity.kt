@@ -1,10 +1,16 @@
 package com.example.bingo.ui
 
 
+import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.PatternMatcher
+import android.text.TextUtils
+import android.util.Patterns
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bingo.databinding.ActivityLoginBinding
 import com.google.firebase.FirebaseApp
@@ -12,7 +18,14 @@ import com.google.firebase.auth.FirebaseAuth
 
 
 class LogInActivity : AppCompatActivity() {
-   /* private lateinit var binding: ActivityLoginBinding
+    private lateinit var binding: ActivityLoginBinding
+
+    private lateinit var actionBar: ActionBar
+
+    private lateinit var firebaseAuth: FirebaseAuth
+
+    private var email = ""
+    private var password = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,40 +33,61 @@ class LogInActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        FirebaseApp.initializeApp(this);
+        actionBar = supportActionBar!!
+        actionBar.title = "Login"
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        checkUser()
 
         binding.apply {
             signupText.setOnClickListener {
-                val intent = Intent(
-                    applicationContext,
-                    SignUpActivity::class.java
+                startActivity(
+                    Intent(
+                        applicationContext,
+                        SignUpActivity::class.java
+                    )
                 )
-                startActivity(intent)
                 finish()
             }
+
             btnLogin.setOnClickListener {
-                if (emailLogin.text.toString()
-                        .isEmpty() || passwordLogin.text.toString().isEmpty()
-                ) {
-                    FirebaseAuth.getInstance().signInWithEmailAndPassword(
-                        emailLogin.text.toString(),
-                        passwordLogin.text.toString()
-                    ).addOnCompleteListener { task ->
-                        if (task.isSuccessful()) {
-                            Toast.makeText(this@LogInActivity, "User loged in", Toast.LENGTH_SHORT)
-                                .show()
-                            startActivity(Intent(applicationContext, HomeActivity::class.java))
-                            finish()
-                        } else {
-                            Toast.makeText(
-                                this@LogInActivity,
-                                "Error" + task.exception?.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                }
+                validateData()
             }
         }
-    }*/
+    }
+
+    private fun validateData() {
+        email = binding.emailLogin.text.toString().trim()
+        password = binding.passwordLogin.text.toString().trim()
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+
+            binding.emailLogin.error = "Invalid email format"
+        } else if (TextUtils.isEmpty(password)) {
+            binding.passwordLogin.error = "Please enter password"
+        } else {
+            firebaseLogin()
+        }
+    }
+
+    private fun firebaseLogin() {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnSuccessListener {
+                val firebaseUser = firebaseAuth.currentUser
+                val email = firebaseUser!!.email
+                Toast.makeText(this, "Logged in as $email", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, HomeActivity::class.java))
+                finish()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Login failed due to ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun checkUser() {
+        val firebaseUser = firebaseAuth.currentUser
+        if (firebaseUser != null) {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+        }
+    }
 }
