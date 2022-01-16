@@ -5,9 +5,10 @@
       <map>
         <entry key="..\:/Users/milos/AndroidStudioProjects/Bingo/app/src/main/res/drawable/circle.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/milos/AndroidStudioProjects/Bingo/app/src/main/res/drawable/s.xml" value="0.22135416666666666" />
-        <entry key="..\:/Users/milos/AndroidStudioProjects/Bingo/app/src/main/res/layout/activity_game.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/milos/AndroidStudioProjects/Bingo/app/src/main/res/layout/activity_game.xml" value="0.5" />
         <entry key="..\:/Users/milos/AndroidStudioProjects/Bingo/app/src/main/res/layout/activity_login.xml" value="0.6058091286307054" />
         <entry key="..\:/Users/milos/AndroidStudioProjects/Bingo/app/src/main/res/layout/activity_signup.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/milos/AndroidStudioProjects/Bingo/app/src/main/res/layout/ball_item.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>
