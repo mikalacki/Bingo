@@ -1,13 +1,19 @@
 package custom
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bingo.databinding.BallItemBinding
-import kotlin.properties.Delegates
+import models.ViewModel
 
 
-class Adapter(private val item: ArrayList<Int>, private val onBallPressed: (Int) -> Unit) :
+class Adapter(
+    private val item: ArrayList<Int>,
+    private val onBallPressed: (Int) -> Unit,
+    private val viewModel: ViewModel,
+    private val resources: Resources
+) :
     RecyclerView.Adapter<Adapter.BallViewHolder>() {
 
 
@@ -15,21 +21,29 @@ class Adapter(private val item: ArrayList<Int>, private val onBallPressed: (Int)
         RecyclerView.ViewHolder(binding.root) {
 
 
-        fun bind(ball: Int, onBallPressed: (Int) -> Unit) {
-
-
+        fun bind(
+            ball: Int,
+            onBallPressed: (Int) -> Unit,
+            viewModel: ViewModel,
+            resources: Resources
+        ) {
 
             binding.ball.setOnClickListener {
 
                 onBallPressed(ball)
 
-                if (binding.ball.alpha == 1f && list.size < 8) {
+                if (binding.ball.alpha == 1f &&  viewModel.ballSize()!! <= 8) {
                     binding.ball.alpha = 0.5f
-                    list.add(ball)
+                    viewModel.addBall(resources.getResourceName(ball).drop(32))
                 } else {
                     binding.ball.alpha = 1f
                     if (list.isEmpty()) {
-                        list.remove(ball)
+                        viewModel.removeBall(resources.getResourceName(ball).drop(32))
+                    }
+                }
+                if (viewModel.ballSize() == 8){
+                    for (i in viewModel.balls.value!!){
+                        println(viewModel.balls.value)
                     }
                 }
             }
@@ -48,7 +62,7 @@ class Adapter(private val item: ArrayList<Int>, private val onBallPressed: (Int)
     }
 
     override fun onBindViewHolder(holder: Adapter.BallViewHolder, position: Int) {
-        holder.bind(item[position], onBallPressed)
+        holder.bind(item[position], onBallPressed, viewModel, resources)
 
 
     }

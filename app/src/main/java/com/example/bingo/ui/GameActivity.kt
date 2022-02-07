@@ -10,12 +10,15 @@ import com.example.bingo.R
 import com.example.bingo.databinding.ActivityGameBinding
 import com.google.android.material.snackbar.Snackbar
 import custom.Adapter
+import models.ViewModel
 
 class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
 
     private lateinit var actionBar: ActionBar
+
+    private val viewModel: ViewModel = ViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +34,10 @@ class GameActivity : AppCompatActivity() {
         }
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-        val adapter = Adapter(fetchData()) {
+        val adapter = Adapter(fetchData(), {
             val imageName = resources.getResourceName(it)
             Snackbar.make(binding.root, "Pressed ball ${imageName.drop(32)}", Snackbar.LENGTH_SHORT).show()
-        }
+        }, viewModel, resources)
         recyclerView.layoutManager = GridLayoutManager(this, 8)
         recyclerView.adapter = adapter
 
