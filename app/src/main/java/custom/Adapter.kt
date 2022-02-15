@@ -32,7 +32,7 @@ class Adapter(
 
                 onBallPressed(ball)
 
-                if (binding.ball.alpha == 1f &&  viewModel.ballSize()!! <= 8) {
+                if (binding.ball.alpha == 1f &&  viewModel.ballSize()!! < 8) {
                     binding.ball.alpha = 0.5f
                     viewModel.addBall(resources.getResourceName(ball).drop(32))
                 } else {

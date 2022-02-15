@@ -8,13 +8,6 @@ class ViewModel : ViewModel() {
     private val _balls = MutableLiveData<ArrayList<String>>(arrayListOf())
     val balls = _balls
 
-    private val _number = MutableLiveData<Boolean>(false)
-    val number = _number
-
-    fun setNumb(n: Boolean){
-
-    }
-
     fun addBall(ball: String) {
         _balls.value?.add(ball)
     }

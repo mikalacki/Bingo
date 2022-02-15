@@ -13,6 +13,12 @@ import androidx.core.view.isVisible
 import com.example.bingo.R
 import com.example.bingo.databinding.ActivityHomeBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GithubAuthCredential
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.module.Module
+import org.koin.dsl.module
 import startAnimation
 
 class HomeActivity : AppCompatActivity() {
@@ -23,8 +29,19 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var actionBar: ActionBar
 
+    var listOfModules = module {
+        single { emptyList<Module>() }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        startKoin {
+            androidLogger()
+            androidContext(this@HomeActivity)
+            modules(listOfModules)
+        }
+
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

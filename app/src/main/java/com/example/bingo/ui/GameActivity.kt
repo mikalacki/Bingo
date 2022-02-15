@@ -32,6 +32,12 @@ class GameActivity : AppCompatActivity() {
             startActivity(Intent(this, HomeActivity::class.java))
             finish()
         }
+        binding.next.setOnClickListener {
+            val intent = Intent(this, GameStepTwoActivity::class.java)
+            intent.putExtra("bals", viewModel.balls.value)
+            startActivity(intent)
+            finish()
+        }
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         val adapter = Adapter(fetchData(), {
